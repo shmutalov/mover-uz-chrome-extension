@@ -71,7 +71,27 @@ function addDownloadButton() {
 		// build elements html
 		var qualityListHTML = '<span>Скачать: ';
 		
-		for (var id = 0, len = qualitySupportArray.length; id < len; id++) {
+		var len = qualitySupportArray.length;
+		var filteredArrayLength = qualitySupportArray
+			.filter(function(value){return value;})
+			.length;
+		
+		var btnClass = "btn thin";
+		var btnClasses = [];
+		
+		if (filteredArrayLength == 1) {
+			btnClasses.push(btnClass);
+		} else if (filteredArrayLength == 2) {
+			btnClasses.push(btnClass + " left");
+			btnClasses.push(btnClass + " right");
+		} else {
+			btnClasses.push(btnClass + " left");
+			btnClasses.push(btnClass + " middle");
+			btnClasses.push(btnClass + " right");
+		}
+		
+		var btnId = 0;
+		for (var id = 0; id < len; id++) {
 			var qualitySupport = qualitySupportArray[id];
 			
 			if (!qualitySupport)
@@ -82,19 +102,9 @@ function addDownloadButton() {
 			
 			var videoUrl = VIDEO_URL + videoId + prefix + ".mp4";
 			
-			var btnClass = "btn thin";
+			qualityListHTML += '<a class="' + btnClasses[btnId] + '" href="' + videoUrl + '" download>' + quality + '</a>';
 			
-			if (len > 1) {
-				if (id == 0) {
-					btnClass += " left";
-				} else if (id == len - 1) {
-					btnClass += " right";
-				} else if (len > 1) {
-					btnClass += " middle";
-				}
-			}
-			
-			qualityListHTML += '<a class="' + btnClass + '" href="' + videoUrl + '" download>' + quality + '</a>';
+			btnId++;
 		}
 		
 		qualityListHTML += '</span><div class="clmar3"></div>';
