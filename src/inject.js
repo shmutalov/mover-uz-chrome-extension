@@ -1,10 +1,26 @@
-const VIDEO_URL = 'http://v.mover.uz/';
+const VIDEO_URL = '//v.mover.uz/';
+var fullVideoUrl = "";
 
 var qualityTypeNames = ["240p", "360p", "480p"];
 var qualityPrefixes = ["_s", "_m", "_b"];
+var currentTab = false;
+var isOverHttps = false;
 
 function getVideoId(url) {
-	var needleLen = "http://mover.uz/watch/".length;
+	var needleLen = 0; 
+	
+	if (url.lastIndexOf("https", 0) === 0) {
+		isOverHttps = true;
+	}
+	
+	var needleLen = isOverHttps 
+		? "https://mover.uz/watch/".length
+		: "http://mover.uz/watch/".length;
+	
+	fullVideoUrl = isOverHttps
+		? "https:" + VIDEO_URL
+		: "http:" + VIDEO_URL;
+	
 	var videoId = url.substr(needleLen);
 
 	if (videoId.lastIndexOf("/") > 0) {
@@ -48,9 +64,9 @@ function checkVideo(url, qualitySupportArray, id, callback) {
 function getVideoQualityPrefixes(videoId, callback) {
 	var qualitySupportArray = [false, false, false];
 
-	checkVideo(VIDEO_URL + videoId + "_s.mp4", qualitySupportArray, 0, function() {
-		checkVideo(VIDEO_URL + videoId + "_m.mp4", qualitySupportArray, 1, function() {
-			checkVideo(VIDEO_URL + videoId + "_b.mp4", qualitySupportArray, 2, function() {
+	checkVideo(fullVideoUrl + videoId + "_s.mp4", qualitySupportArray, 0, function() {
+		checkVideo(fullVideoUrl + videoId + "_m.mp4", qualitySupportArray, 1, function() {
+			checkVideo(fullVideoUrl + videoId + "_b.mp4", qualitySupportArray, 2, function() {
 				callback(qualitySupportArray);
 			})
 		})
@@ -100,7 +116,7 @@ function addDownloadButton() {
 			var quality = qualityTypeNames[id];
 			var prefix = qualityPrefixes[id];
 			
-			var videoUrl = VIDEO_URL + videoId + prefix + ".mp4";
+			var videoUrl = fullVideoUrl + videoId + prefix + ".mp4";
 			
 			qualityListHTML += '<a class="' + btnClasses[btnId] + '" href="' + videoUrl + '" download>' + quality + '</a>';
 			
