@@ -1,8 +1,8 @@
 {
   "name": "Mover.uz Video Downloader",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "manifest_version": 2,
-  "description": "Google Chrome extension for adding possibility to directly load video files from http://mover.uz",
+  "description": "Google Chrome extension for adding possibility to directly load video files from https://mover.uz",
   "homepage_url": "https://github.com/shmutalov/mover-uz-chrome-extension",
   "author": "Sherzod Mutalov",
   "icons": {
