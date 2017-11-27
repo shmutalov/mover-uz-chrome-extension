@@ -1,8 +1,8 @@
 const VIDEO_URL = '//v.mover.uz/';
 var fullVideoUrl = "";
 
-var qualityTypeNames = ["240p", "360p", "480p"];
-var qualityPrefixes = ["_s", "_m", "_b"];
+var qualityTypeNames = ["240p", "360p", "480p", "720p"];
+var qualityPrefixes = ["_s", "_m", "_b", "_h"];
 var currentTab = false;
 var isOverHttps = false;
 
@@ -62,12 +62,14 @@ function checkVideo(url, qualitySupportArray, id, callback) {
 }
 
 function getVideoQualityPrefixes(videoId, callback) {
-	var qualitySupportArray = [false, false, false];
+	var qualitySupportArray = [false, false, false, false];
 
 	checkVideo(fullVideoUrl + videoId + "_s.mp4", qualitySupportArray, 0, function() {
 		checkVideo(fullVideoUrl + videoId + "_m.mp4", qualitySupportArray, 1, function() {
 			checkVideo(fullVideoUrl + videoId + "_b.mp4", qualitySupportArray, 2, function() {
-				callback(qualitySupportArray);
+				checkVideo(fullVideoUrl + videoId + "_h.mp4", qualitySupportArray, 3, function() {
+					callback(qualitySupportArray);
+				})
 			})
 		})
 	})
@@ -97,13 +99,16 @@ function addDownloadButton() {
 		
 		if (filteredArrayLength == 1) {
 			btnClasses.push(btnClass);
-		} else if (filteredArrayLength == 2) {
-			btnClasses.push(btnClass + " left");
-			btnClasses.push(btnClass + " right");
 		} else {
-			btnClasses.push(btnClass + " left");
-			btnClasses.push(btnClass + " middle");
-			btnClasses.push(btnClass + " right");
+			for (var id = 0; id < filteredArrayLength; id++)
+			{
+				if (id == 0)
+					btnClasses.push(btnClass + " left");
+				else if (id == filteredArrayLength-1)
+					btnClasses.push(btnClass + " right");
+				else
+					btnClasses.push(btnClass + " middle");
+			}
 		}
 		
 		var btnId = 0;
