@@ -1,7 +1,7 @@
 {
   "name": "Mover.uz Video Downloader",
-  "version": "0.1.2",
-  "manifest_version": 2,
+  "version": "0.2.0",
+  "manifest_version": 3,
   "description": "Google Chrome extension for adding possibility to directly load video files from https://mover.uz",
   "homepage_url": "https://github.com/shmutalov/mover-uz-chrome-extension",
   "author": "Sherzod Mutalov",
@@ -12,17 +12,17 @@
     "64": "icons/muvd64.png",
     "128": "icons/muvd128.png"
   },
+  "host_permissions": [
+    "*://*.mover.uz/"
+  ],
   "permissions": [
-    "http://mover.uz/*",
-    "https://mover.uz/*",
-	"http://v.mover.uz/*",
-	"https://v.mover.uz/*"
+    "tabs",
+    "scripting"
   ],
   "content_scripts": [
     {
       "matches": [
-        "http://mover.uz/*",
-        "https://mover.uz/*"
+        "*://*.mover.uz/*"
       ],
       "js": [
         "src/inject.js"
@@ -30,14 +30,17 @@
       "run_at": "document_end"
     }
   ],
-  "browser_action": {
-	"default_icon": {
-		"16": "icons/muvd16.png",
-		"32": "icons/muvd32.png",
-		"48": "icons/muvd48.png",
-		"64": "icons/muvd64.png",
-		"128": "icons/muvd128.png"
-	},
-	"default_title": "Mover.Uz Video Downloader"
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_icon": {
+      "16": "icons/muvd16.png",
+      "32": "icons/muvd32.png",
+      "48": "icons/muvd48.png",
+      "64": "icons/muvd64.png",
+      "128": "icons/muvd128.png"
+    },
+	  "default_title": "Mover.Uz Video Downloader"
   }
 }
