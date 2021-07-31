@@ -16,8 +16,7 @@
     "*://*.mover.uz/"
   ],
   "permissions": [
-    "tabs",
-    "scripting"
+    "tabs"
   ],
   "content_scripts": [
     {
